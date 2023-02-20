@@ -1,11 +1,11 @@
 export class Transaction {
-  date: Date;
   amount: number;
+  date: Date;
   type: 'deposit' | 'withdrawal';
 
-  constructor(date: Date, amount: number, type: 'deposit' | 'withdrawal') {
-    this.date = date;
+  constructor(amount: number, date: Date, type: 'deposit' | 'withdrawal') {
     this.amount = amount;
+    this.date = date;
     this.type = type;
   }
 }

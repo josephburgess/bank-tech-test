@@ -1,45 +1,32 @@
 import { BankAccount } from '../src/bank-account';
+import { Transaction } from '../src/transaction';
 
 describe('Bank Account', () => {
-  let bankAccount;
+  let bankAccount: BankAccount;
+
   beforeEach(() => {
     bankAccount = new BankAccount();
   });
+
   it('should take a deposit and update the bank account', () => {
-    const deposit = {
-      date: '2023-02-20T13:56:27.458Z',
+    bankAccount.deposit(100);
+    const expectedTrans: Transaction = {
       amount: 100,
+      date: new Date(),
       type: 'deposit',
     };
-    bankAccount.deposit(deposit);
     expect(bankAccount.balance).toEqual(100);
-    expect(bankAccount.transactions).toEqual([deposit]);
+    expect(bankAccount.transactions).toEqual([expectedTrans]);
   });
 
   it('should allow a withdrawal and update the bank account', () => {
-    const deposit = {
-      date: '2023-02-20T13:56:27.458Z',
-      amount: 100,
-      type: 'deposit',
-    };
-    const withdrawal = {
-      date: '2023-02-20T13:58:27.458Z',
-      amount: 50,
-      type: 'withdrawal',
-    };
-    bankAccount.deposit(deposit);
-    bankAccount.withdraw(withdrawal);
+    bankAccount.deposit(100);
+    bankAccount.withdraw(50);
     expect(bankAccount.balance).toEqual(50);
-    expect(bankAccount.transactions).toEqual([deposit, withdrawal]);
   });
 
   it('should not allow a withdrawal if funds are insufficient', () => {
-    const withdrawal = {
-      date: '2023-02-20T13:58:27.458Z',
-      amount: 50,
-      type: 'withdrawal',
-    };
-    expect(() => bankAccount.withdraw(withdrawal)).toThrowError(
+    expect(() => bankAccount.withdraw(100)).toThrowError(
       'Insufficient balance'
     );
   });

@@ -4,17 +4,17 @@ export class BankAccount {
   private balance: number = 0;
   private transactions: Transaction[] = [];
 
-  deposit(transaction: Transaction): void {
-    this.balance += transaction.amount;
-    this.transactions.push(transaction);
+  deposit(amount: number, date: Date = new Date()): void {
+    this.balance += amount;
+    this.transactions.push(new Transaction(amount, date, 'deposit'));
   }
 
-  withdraw(transaction: Transaction): void {
-    if (this.balance < transaction.amount) {
+  withdraw(amount: number, date: Date = new Date()): void {
+    if (this.balance < amount) {
       throw new Error('Insufficient balance');
     } else {
-      this.balance -= transaction.amount;
-      this.transactions.push(transaction);
+      this.balance -= amount;
+      this.transactions.push(new Transaction(amount, date, 'withdrawal'));
     }
   }
 
