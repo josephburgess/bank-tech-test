@@ -32,4 +32,15 @@ describe('Bank Account', () => {
     expect(bankAccount.balance).toEqual(50);
     expect(bankAccount.transactions).toEqual([deposit, withdrawal]);
   });
+
+  it('should not allow a withdrawal if funds are insufficient', () => {
+    const withdrawal = {
+      date: '2023-02-20T13:58:27.458Z',
+      amount: 50,
+      type: 'withdrawal',
+    };
+    expect(() => bankAccount.withdraw(withdrawal)).toThrowError(
+      'Insufficient balance'
+    );
+  });
 });
