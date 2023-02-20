@@ -34,5 +34,27 @@ describe('Bank Account', () => {
     });
   });
 
-  describe('getStatement', () => {});
+  describe('getStatement', () => {
+    it('should generate an empty statement when no transactions have been made', () => {
+      expect(bankAccount.getStatement()).toEqual(
+        'Date || Credit || Debit || Balance'
+      );
+    });
+
+    it('should generate a statement with transactions in reverse chronological order', () => {
+      bankAccount.deposit(1000, new Date('2023-02-09'));
+      expect(bankAccount.getStatement()).toEqual(
+        'Date || Credit || Debit || Balance\n2023-02-09 || 1000.00 ||  || 1000.00'
+      );
+    });
+
+    it('should generate a statement with transactions in reverse chronological order', () => {
+      bankAccount.deposit(1000, new Date('2023-02-09'));
+      bankAccount.withdraw(1000, new Date('2023-02-10'));
+      bankAccount.deposit(500, new Date('2023-02-20'));
+      expect(bankAccount.getStatement()).toEqual(
+        'Date || Credit || Debit || Balance\n2023-02-20 || 500.00 ||  || 500.00\n2023-02-10 ||  || 1000.00 || 0.00\n2023-02-09 || 1000.00 ||  || 1000.00'
+      );
+    });
+  });
 });
