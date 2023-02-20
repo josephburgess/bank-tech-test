@@ -15,14 +15,14 @@ describe('Bank Account', () => {
       date: new Date(),
       type: 'deposit',
     };
-    expect(bankAccount.balance).toEqual(100);
-    expect(bankAccount.transactions).toEqual([expectedTrans]);
+    expect(bankAccount['balance']).toEqual(100);
+    expect(bankAccount['transactions']).toEqual([expectedTrans]);
   });
 
   it('should allow a withdrawal and update the bank account', () => {
     bankAccount.deposit(100);
     bankAccount.withdraw(50);
-    expect(bankAccount.balance).toEqual(50);
+    expect(bankAccount['balance']).toEqual(50);
   });
 
   it('should not allow a withdrawal if funds are insufficient', () => {
