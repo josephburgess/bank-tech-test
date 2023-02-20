@@ -18,5 +18,7 @@ export class BankAccount {
     }
   }
 
-  getStatement() {}
+  getStatement(): string {
+    return 'Date || Credit || Debit || Balance';
+  }
 }
