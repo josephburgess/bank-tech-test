@@ -34,6 +34,10 @@ These methods both take an amount (`number`) and a date (string with `yyyy-mm-dd
 
 In order to get a formatted statement of the account, you can either call the short-hand `print()` method defined in the `startRepl` method, or the full `bankStatement.printStatement()` will return a string with the formatted statement.
 
+Example usage with REPL commands shown below:
+
+![Example usage](/images/example-usage.png)
+
 You can also instantiate new instances of these classes and add transactions as you wish. See example usage below.
 
 ### Example usage
@@ -83,7 +87,7 @@ Tests included unit tests for the `BankSystem` and `BankStatement` classes, as w
 
 100% test coverage was achieved. I found TypeScript particularly enjoyable and robust to use for this project as it then limited my need for testing certain edge cases given the explicit nature of the typed language.
 
-![Alt text](/images/test-coverage.png)
+![Test Coverage](/images/test-coverage.png)
 
 ## Things to add
 - Use a database instead or a file system to keep track of multiple accounts centrally.
