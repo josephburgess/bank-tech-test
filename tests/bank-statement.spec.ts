@@ -18,7 +18,6 @@ describe('BankStatement', () => {
 
   it('should generate an empty statement when no transactions have been made', () => {
     bankAccount.transactions = [];
-    console.log(bankStatement.getStatement());
     expect(bankStatement.getStatement()).toEqual(
       'Date        ||Credit      ||Debit       ||Balance     '
     );
@@ -29,8 +28,6 @@ describe('BankStatement', () => {
       { amount: 500, date: new Date('2023-02-09'), type: 'deposit' },
     ];
     bankStatement = new BankStatement(bankAccount);
-    console.log(bankStatement.getStatement());
-
     expect(bankStatement.getStatement()).toContain(
       '2023-02-09  ||500.00      ||            ||500.00      '
     );
@@ -41,7 +38,6 @@ describe('BankStatement', () => {
       { amount: 500, date: new Date('2023-02-09'), type: 'withdrawal' },
     ];
     bankStatement = new BankStatement(bankAccount);
-    console.log(bankStatement.getStatement());
     expect(bankStatement.getStatement()).toContain(
       '2023-02-09  ||            ||500.00      ||-500.00     '
     );
@@ -49,7 +45,6 @@ describe('BankStatement', () => {
 
   it('should generate a statement with transactions in reverse chronological order', () => {
     bankStatement = new BankStatement(bankAccount);
-    console.log(bankStatement.getStatement());
     expect(bankStatement.getStatement()).toEqual(
       'Date        ||Credit      ||Debit       ||Balance     \n2023-02-20  ||500.00      ||            ||500.00      \n2023-02-10  ||            ||1000.00     ||0.00        \n2023-02-09  ||1000.00     ||            ||1000.00     '
     );
