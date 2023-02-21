@@ -63,7 +63,6 @@ describe('BankStatement', () => {
       } as Transaction,
     ];
     bankStatement = new BankStatement(bankAccount);
-    console.log(bankStatement.getStatement());
     expect(bankStatement.getStatement()).toEqual(
       'Date        ||Credit      ||Debit       ||Balance     \n' +
         '2023-02-09  ||            ||500.00      ||0.00        \n' +
