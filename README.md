@@ -19,27 +19,26 @@ I chose to use TypeScript as I had not used it before starting this week and I w
 ## Running the project
 ________________________________________________________________
 
-To run this project, first clone the repository and run
+To run this project, first clone the repository and run `npm install` to install the required packages.
 
 ```bash
 npm install
 ```
 
-to install the required packages.
-
-Open up a REPL, e.g. `ts-node` and then run:
+Next, run `npm start` to open the REPL with a `BankSystem` and `BankStatement` class already instantiated.
 
 ```
-import {BankSystem, BankStatement} from './src/main'
+npm start
 ```
 
-to get access to the available classes (`BankSystem` and `BankStatement`).
 
-You can create an instance of the `BankSystem` class, and start adding transactions to it by using the `.deposit()` and `.withdraw()` methods.
+You can start adding transactions using the BankSystem by using the `bankSystem.deposit()` and `bankSystem.withdraw()` methods.
+
 These methods both take an amount (number) and a date (string with `yyyy-mm-dd` format) as parameters, however the date is not required and will default to today's date if not specified.
 
-In order to get a formatted statement of an account, create a new instance of `BankStatement` with `BankSystem.getAccount()` as an argument.
-The `BankStatement.printStatement()` method will return a string with the formatted statement.
+In order to get a formatted statement of the account, the `bankStatement.printStatement()` method will return a string with the formatted statement.
+
+You can also instantiate new instances of these classes and add transactions as you wish. See example usage below.
 
 ### Example usage
 ```ts

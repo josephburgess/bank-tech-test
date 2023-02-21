@@ -1,4 +1,13 @@
-import { BankSystem } from './bank-system';
 import { BankStatement } from './bank-statement';
+import { BankSystem } from './bank-system';
 
-export { BankSystem, BankStatement };
+function startRepl() {
+  const bankSystem = new BankSystem();
+  const bankStatement = new BankStatement(bankSystem.getAccount());
+
+  const repl = require('repl').start('> ');
+  repl.context.bankSystem = bankSystem;
+  repl.context.bankStatement = bankStatement;
+}
+
+startRepl();
