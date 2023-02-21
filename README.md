@@ -6,7 +6,7 @@ A small TypeScript bank implementation that allows the user to:
 - deposit/withdraw from this account
 - create a formatted account statement
 
-from a REPL (eg `ts-node`).
+Using a REPL (eg `ts-node`).
 
 ## Background
 This was assigned as part of week 10 at Makers Academy. The core focus for the week was on producing the best code possible where there was a minimal time pressure.
@@ -31,7 +31,7 @@ npm start
 
 You can start adding transactions using the BankSystem by using the `bankSystem.deposit()` and `bankSystem.withdraw()` methods.
 
-These methods both take an amount (number) and a date (string with `yyyy-mm-dd` format) as parameters, however the date is not required and will default to today's date if not specified.
+These methods both take an amount (`number`) and a date (string with `yyyy-mm-dd` format) as parameters, however the date is not required and will default to today's date if not specified.
 
 In order to get a formatted statement of the account, the `bankStatement.printStatement()` method will return a string with the formatted statement.
 
@@ -58,11 +58,7 @@ bankStatement.printStatement();
 ```
 
 
-To run the tests for this project, run the below from the home directory.
 
-```bash
-npm run test
-```
 
 
 
@@ -77,7 +73,12 @@ This class also ensures that we are not withdrawing too much money from an accou
 The `BankStatement` class is responsible for generating a formatted account statement. It includes private methods to handle individual transaction formatting, and combines these into a single string with a header.
 
 ## Testing
-________________________________________________________
+
+To run the tests for this project, run the below from the home directory.
+
+```bash
+npm run test
+```
 
 Tests included unit tests for the `BankSystem` and `BankStatement` classes, as well as integration tests covering both classes and the `Transaction` and `BankAccount` types.
 
