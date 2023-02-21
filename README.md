@@ -9,7 +9,6 @@ A small TypeScript bank implementation that allows the user to:
 from a REPL (eg `ts-node`).
 
 ## Background
-________________________________________________________________
 This was assigned as part of week 10 at Makers Academy. The core focus for the week was on producing the best code possible where there was a minimal time pressure.
 
 We had to work alone, and also had to review our own code to practice reflecting on and improving our own work.
@@ -17,8 +16,6 @@ We had to work alone, and also had to review our own code to practice reflecting
 I chose to use TypeScript as I had not used it before starting this week and I wanted to use the solo-work as an opportunity to build knowledge in a new language, having been using JavaScript for the previous few weeks.
 
 ## Running the project
-________________________________________________________________
-
 To run this project, first clone the repository and run `npm install` to install the required packages.
 
 ```bash
@@ -70,7 +67,6 @@ npm run test
 
 
 ## Technical Details
-________________________________________________________
 The main account logic is contained in the `BankSystem` class, along with the `BankAccount` and `Transaction` types located in the types.ts file.
 
 Internally, this class stores the transactions inside an array.
@@ -90,8 +86,6 @@ Tests included unit tests for the `BankSystem` and `BankStatement` classes, as w
 ![Alt text](/images/test-coverage.png)
 
 ## Things to add
-________________________________________________________
-
 - Use a database instead or a file system to keep track of multiple accounts centrally.
 - Create a command-line interface or web app to allow the user to easily add transactions to their account.
 - Allow the user to perform more complex actions, such as transfers and standing orders.
