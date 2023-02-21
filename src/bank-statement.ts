@@ -1,4 +1,3 @@
-import { BankSystem } from './bank-system';
 import { BankAccount } from './types';
 
 export class BankStatement {
