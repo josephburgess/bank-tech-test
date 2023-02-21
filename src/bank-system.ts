@@ -1,23 +1,21 @@
-import { Transaction } from './transaction';
-import { BankAccount } from './bank-account';
+import { BankAccount, Transaction } from './types';
 
 export class BankSystem {
   private account: BankAccount = { balance: 0, transactions: [] };
 
   deposit(amount: number, date: Date = new Date()): void {
+    const transaction: Transaction = { amount, date, type: 'deposit' };
     this.account.balance += amount;
-    this.account.transactions.push(new Transaction(amount, date, 'deposit'));
+    this.account.transactions.push(transaction);
   }
 
   withdraw(amount: number, date: Date = new Date()): void {
     if (this.account.balance < amount) {
       throw new Error('Insufficient balance');
-    } else {
-      this.account.balance -= amount;
-      this.account.transactions.push(
-        new Transaction(amount, date, 'withdrawal')
-      );
     }
+    const transaction: Transaction = { amount, date, type: 'withdrawal' };
+    this.account.balance -= amount;
+    this.account.transactions.push(transaction);
   }
 
   getAccount(): BankAccount {

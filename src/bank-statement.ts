@@ -1,5 +1,6 @@
 import { BankSystem } from './bank-system';
-import { BankAccount } from './bank-account';
+import { BankAccount } from './types';
+
 export class BankStatement {
   account: BankAccount;
 
