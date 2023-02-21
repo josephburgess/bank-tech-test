@@ -28,12 +28,11 @@ Next, run `npm start` to open the REPL with a `BankSystem` and `BankStatement` c
 npm start
 ```
 
-
-You can start adding transactions using the BankSystem by using the `bankSystem.deposit()` and `bankSystem.withdraw()` methods.
+You can start adding transactions using the BankSystem by either using the shorthand functions created when the REPL initialises (`deposit()`, `withdraw()`) or by using the long-hand `bankSystem.deposit()` and `bankSystem.withdraw()` methods.
 
 These methods both take an amount (`number`) and a date (string with `yyyy-mm-dd` format) as parameters, however the date is not required and will default to today's date if not specified.
 
-In order to get a formatted statement of the account, the `bankStatement.printStatement()` method will return a string with the formatted statement.
+In order to get a formatted statement of the account, you can either call the short-hand `print()` method defined in the `startRepl` method, or the full `bankStatement.printStatement()` will return a string with the formatted statement.
 
 You can also instantiate new instances of these classes and add transactions as you wish. See example usage below.
 
