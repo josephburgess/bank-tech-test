@@ -80,4 +80,10 @@ describe('BankStatement', () => {
         '2023-02-09  ||1000.00     ||            ||1000.00     '
     );
   });
+
+  it('should print output to the console with printstatement', () => {
+    const logSpy = jest.spyOn(console, 'log');
+    bankStatement.printStatement();
+    expect(logSpy).toHaveBeenCalledWith(bankStatement.getStatement());
+  });
 });

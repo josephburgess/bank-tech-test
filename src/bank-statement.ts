@@ -13,6 +13,10 @@ export class BankStatement {
     return [header, ...statementLines.reverse()].join('\n');
   }
 
+  printStatement(): void {
+    console.log(this.getStatement());
+  }
+
   private getStatementLines(): string[] {
     let runningBalance = 0;
     return this.account.transactions.map(({ date, amount, type }) => {
