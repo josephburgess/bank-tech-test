@@ -1,8 +1,19 @@
 import { BankStatement } from '../src/bank-statement';
 
+export interface BankAccount {
+  balance: number;
+  transactions: Transaction[];
+}
+
+export interface Transaction {
+  amount: number;
+  date: Date;
+  type: 'deposit' | 'withdrawal';
+}
+
 describe('BankStatement', () => {
   let bankStatement: BankStatement;
-  let bankAccount;
+  let bankAccount: BankAccount;
 
   beforeEach(() => {
     bankAccount = {
@@ -25,28 +36,48 @@ describe('BankStatement', () => {
 
   it('should generate a statement with a single deposit transaction', () => {
     bankAccount.transactions = [
-      { amount: 500, date: new Date('2023-02-09'), type: 'deposit' },
+      {
+        amount: 500,
+        date: new Date('2023-02-09'),
+        type: 'deposit',
+      } as Transaction,
     ];
     bankStatement = new BankStatement(bankAccount);
-    expect(bankStatement.getStatement()).toContain(
-      '2023-02-09  ||500.00      ||            ||500.00      '
+    expect(bankStatement.getStatement()).toEqual(
+      'Date        ||Credit      ||Debit       ||Balance     \n' +
+        '2023-02-09  ||500.00      ||            ||500.00      '
     );
   });
 
-  it('should generate a statement with a single withdrawal transaction', () => {
+  it('should generate a statement with a single deposit and single withdrawal transaction', () => {
     bankAccount.transactions = [
-      { amount: 500, date: new Date('2023-02-09'), type: 'withdrawal' },
+      {
+        amount: 500,
+        date: new Date('2023-02-08'),
+        type: 'deposit',
+      } as Transaction,
+      {
+        amount: 500,
+        date: new Date('2023-02-09'),
+        type: 'withdrawal',
+      } as Transaction,
     ];
     bankStatement = new BankStatement(bankAccount);
-    expect(bankStatement.getStatement()).toContain(
-      '2023-02-09  ||            ||500.00      ||-500.00     '
+    console.log(bankStatement.getStatement());
+    expect(bankStatement.getStatement()).toEqual(
+      'Date        ||Credit      ||Debit       ||Balance     \n' +
+        '2023-02-09  ||            ||500.00      ||0.00        \n' +
+        '2023-02-08  ||500.00      ||            ||500.00      '
     );
   });
 
   it('should generate a statement with transactions in reverse chronological order', () => {
     bankStatement = new BankStatement(bankAccount);
     expect(bankStatement.getStatement()).toEqual(
-      'Date        ||Credit      ||Debit       ||Balance     \n2023-02-20  ||500.00      ||            ||500.00      \n2023-02-10  ||            ||1000.00     ||0.00        \n2023-02-09  ||1000.00     ||            ||1000.00     '
+      'Date        ||Credit      ||Debit       ||Balance     \n' +
+        '2023-02-20  ||500.00      ||            ||500.00      \n' +
+        '2023-02-10  ||            ||1000.00     ||0.00        \n' +
+        '2023-02-09  ||1000.00     ||            ||1000.00     '
     );
   });
 });
