@@ -8,16 +8,12 @@ export class BankStatement {
   }
 
   getStatement(): string {
-    const header = this.getHeader();
+    const header = this.formatLine('Date', 'Credit', 'Debit', 'Balance');
     const statementLines = this.getStatementLines();
     return [header, ...statementLines.reverse()].join('\n');
   }
 
-  private getHeader(): string {
-    return 'Date || Credit || Debit || Balance';
-  }
-
-  getStatementLines(): string[] {
+  private getStatementLines(): string[] {
     let runningBalance = 0;
     return this.account.transactions.map(({ date, amount, type }) => {
       const dateString = date.toISOString().substring(0, 10);
@@ -25,9 +21,17 @@ export class BankStatement {
         type === 'deposit' ? [amount.toFixed(2), ''] : ['', amount.toFixed(2)];
       runningBalance =
         type === 'deposit' ? runningBalance + amount : runningBalance - amount;
-      return `${dateString} || ${credit} || ${debit} || ${runningBalance.toFixed(
-        2
-      )}`;
+      return this.formatLine(
+        dateString,
+        credit,
+        debit,
+        runningBalance.toFixed(2)
+      );
     });
+  }
+
+  private formatLine(...args: string[]): string {
+    const [date, credit, debit, balance] = args.map((arg) => arg.padEnd(12));
+    return `${date}||${credit}||${debit}||${balance}`;
   }
 }
