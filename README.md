@@ -1,37 +1,99 @@
-# Bank tech test
+# Bank Tech Test
 
-Today, you'll practice doing a tech test.
+A small TypeScript bank implementation that allows the user to:
 
-For most tech tests, you'll essentially have unlimited time.  This practice session is about producing the best code you can when there is a minimal time pressure.
+- create a bank account
+- deposit/withdraw from this account
+- create a formatted account statement
 
-You'll get to practice your OO design and TDD skills.
+from a REPL (eg `ts-node`).
 
-You'll work alone, and you'll also review your own code so you can practice reflecting on and improving your own work.
+## Background
+________________________________________________________________
+This was assigned as part of week 10 at Makers Academy. The core focus for the week was on producing the best code possible where there was a minimal time pressure.
 
-## Specification
+We had to work alone, and also had to review our own code to practice reflecting on and improving our own work.
 
-### Requirements
+I chose to use TypeScript as I had not used it before starting this week and I wanted to use the solo-work as an opportunity to build knowledge in a new language, having been using JavaScript for the previous few weeks.
 
-* You should be able to interact with your code via a REPL like IRB or Node.  (You don't need to implement a command line interface that takes input from STDIN.)
-* Deposits, withdrawal.
-* Account statement (date, amount, balance) printing.
-* Data can be kept in memory (it doesn't need to be stored to a database or anything).
+## Running the project
+________________________________________________________________
 
-### Acceptance criteria
+To run this project, first clone the repository and run
 
-**Given** a client makes a deposit of 1000 on 10-01-2023  
-**And** a deposit of 2000 on 13-01-2023  
-**And** a withdrawal of 500 on 14-01-2023  
-**When** she prints her bank statement  
-**Then** she would see
-
-```
-date || credit || debit || balance
-14/01/2023 || || 500.00 || 2500.00
-13/01/2023 || 2000.00 || || 3000.00
-10/01/2023 || 1000.00 || || 1000.00
+```bash
+npm install
 ```
 
-## Self-assessment
+to install the required packages.
 
-Once you have completed the challenge and feel happy with your solution, here's a form to help you reflect on the quality of your code: https://docs.google.com/forms/d/1Q-NnqVObbGLDHxlvbUfeAC7yBCf3eCjTmz6GOqC9Aeo/edit
+Open up a REPL, e.g. `ts-node` and then run:
+
+```
+import {BankSystem, BankStatement} from './src/main'
+```
+
+to get access to the available classes (`BankSystem` and `BankStatement`).
+
+You can create an instance of the `BankSystem` class, and start adding transactions to it by using the `.deposit()` and `.withdraw()` methods.
+These methods both take an amount (number) and a date (string with `yyyy-mm-dd` format) as parameters, however the date is not required and will default to today's date if not specified.
+
+In order to get a formatted statement of an account, create a new instance of `BankStatement` with `BankSystem.getAccount()` as an argument.
+The `BankStatement.printStatement()` method will return a string with the formatted statement.
+
+### Example usage
+```ts
+const bankSystem = new BankSystem();
+const bankAccount = bankSystem.getAccount();
+const bankStatement = new BankStatement(bankAccount);
+
+bankSystem.deposit(1000);
+bankSystem.deposit(2000);
+bankSystem.withdraw(500);
+
+bankStatement.printStatement();
+
+// Output:
+
+"Date        ||Credit      ||Debit       ||Balance"
+"2023-02-21  ||            ||500.00      ||2500.00"
+"2023-02-21  ||2000.00     ||            ||3000.00"
+"2023-02-21  ||1000.00     ||            ||1000.00"
+```
+
+
+To run the tests for this project, run the below from the home directory.
+
+```bash
+npm run test
+```
+
+
+
+## Technical Details
+________________________________________________________
+The main account logic is contained in the `BankSystem` class, along with the `BankAccount` and `Transaction` types located in the types.ts file.
+
+Internally, this class stores the transactions inside an array.
+Each transaction is represented as an object of type `Transaction`, which contains the amount, the date, and the type (deposit | withdrawal) of transaction. Current data of the account (balance and transactions) are stored privately, in the shape of type `BankAccount`, and are accessed with the `getAccount()` method.
+
+This class also ensures that we are not withdrawing too much money from an account.
+
+The `BankStatement` class is responsible for generating a formatted account statement. It includes private methods to handle individual transaction formatting, and combines these into a single string with a header.
+
+## Testing
+________________________________________________________
+
+Tests included unit tests for the `BankSystem` and `BankStatement` classes, as well as integration tests covering both classes and the `Transaction` and `BankAccount` types.
+
+100% test coverage was achieved. I found TypeScript particularly enjoyable and robust to use for this project as it then limited my need for testing certain edge cases given the explicit nature of the typed language.
+
+![Alt text](/images/test-coverage.png)
+
+## Things to add
+________________________________________________________
+
+- Use a database instead or a file system to keep track of multiple accounts centrally.
+- Create a command-line interface or web app to allow the user to easily add transactions to their account.
+- Allow the user to perform more complex actions, such as transfers and standing orders.
+- Add user info in order to differentiate between accounts and settings to allow for more customization.
