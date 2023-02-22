@@ -8,8 +8,7 @@ describe('Bank Account', () => {
   });
 
   describe('deposits', () => {
-    it('should take a deposit and update the bank account', () => {
-      expect(bankAccount['balance']).toEqual(0);
+    it('should take a deposit and add the transaction to the transactions', () => {
       expect(bankAccount['transactions']).toEqual([]);
       bankAccount.deposit(100);
       const expectedTrans = {
@@ -17,17 +16,18 @@ describe('Bank Account', () => {
         date: new Date(),
         type: 'deposit',
       };
-      expect(bankAccount['balance']).toEqual(100);
       expect(bankAccount['transactions']).toEqual([expectedTrans]);
     });
   });
 
   describe('withdrawals', () => {
-    it('should allow a withdrawal and update the bank account', () => {
-      expect(bankAccount['balance']).toEqual(0);
+    it('should allow a withdrawal and update the transactions', () => {
       bankAccount.deposit(100);
       bankAccount.withdraw(50);
-      expect(bankAccount['balance']).toEqual(50);
+      expect(bankAccount['transactions']).toEqual([
+        { amount: 100, date: expect.any(Date), type: 'deposit' },
+        { amount: 50, date: expect.any(Date), type: 'withdrawal' },
+      ]);
     });
 
     it('should not allow a withdrawal if funds are insufficient', () => {
