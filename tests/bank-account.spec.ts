@@ -18,6 +18,11 @@ describe('Bank Account', () => {
       };
       expect(bankAccount['transactions']).toEqual([expectedTrans]);
     });
+    it('should not allow a negative deposit', () => {
+      expect(() => bankAccount.deposit(-100)).toThrowError(
+        'Amount must be a positive number'
+      );
+    });
   });
 
   describe('withdrawals', () => {
@@ -33,6 +38,11 @@ describe('Bank Account', () => {
     it('should not allow a withdrawal if funds are insufficient', () => {
       expect(() => bankAccount.withdraw(100)).toThrowError(
         'Insufficient balance'
+      );
+    });
+    it('should not allow a negative withdrawal', () => {
+      expect(() => bankAccount.withdraw(-100)).toThrowError(
+        'Amount must be a positive number'
       );
     });
   });
