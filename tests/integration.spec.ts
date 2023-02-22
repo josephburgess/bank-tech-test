@@ -17,6 +17,10 @@ describe('BankAccount and BankStatement integration', () => {
   });
 
   it('should generate a statement with a single deposit transaction', () => {
+    account.printStatement(statement);
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      'Date        ||Credit      ||Debit       ||Balance     '
+    );
     account.deposit(500, new Date('2023-02-09'));
     account.printStatement(statement);
     expect(consoleLogSpy).toHaveBeenCalledWith(

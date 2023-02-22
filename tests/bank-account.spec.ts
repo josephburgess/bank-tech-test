@@ -9,6 +9,8 @@ describe('Bank Account', () => {
 
   describe('deposits', () => {
     it('should take a deposit and update the bank account', () => {
+      expect(bankAccount['balance']).toEqual(0);
+      expect(bankAccount['transactions']).toEqual([]);
       bankAccount.deposit(100);
       const expectedTrans = {
         amount: 100,
@@ -22,6 +24,7 @@ describe('Bank Account', () => {
 
   describe('withdrawals', () => {
     it('should allow a withdrawal and update the bank account', () => {
+      expect(bankAccount['balance']).toEqual(0);
       bankAccount.deposit(100);
       bankAccount.withdraw(50);
       expect(bankAccount['balance']).toEqual(50);
