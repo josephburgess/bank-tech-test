@@ -1,20 +1,17 @@
 import { Transaction } from './types';
 
 export interface IStatementPrinter {
-  print(transactions: Transaction[], balance: number): void;
+  print(transactions: Transaction[]): void;
 }
 
 export class BankStatement implements IStatementPrinter {
-  print(transactions: Transaction[], balance: number): void {
+  print(transactions: Transaction[]): void {
     const header = this.formatLine('Date', 'Credit', 'Debit', 'Balance');
-    const statementLines = this.getStatementLines(transactions, balance);
+    const statementLines = this.getStatementLines(transactions);
     console.log([header, ...statementLines.reverse()].join('\n'));
   }
 
-  private getStatementLines(
-    transactions: Transaction[],
-    balance: number
-  ): string[] {
+  private getStatementLines(transactions: Transaction[]): string[] {
     let runningBalance = 0;
     return transactions.map(({ date, amount, type }) => {
       const dateString = date.toISOString().substring(0, 10);

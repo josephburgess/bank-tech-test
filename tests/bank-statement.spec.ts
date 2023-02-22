@@ -25,7 +25,7 @@ describe('BankStatement', () => {
     const expectedStatement =
       'Date        ||Credit      ||Debit       ||Balance     \n' +
       '2023-02-09  ||500.00      ||            ||500.00      ';
-    bankStatement.print(transactions, 500);
+    bankStatement.print(transactions);
     expect(console.log).toHaveBeenCalledWith(expectedStatement);
   });
 
@@ -46,7 +46,7 @@ describe('BankStatement', () => {
       'Date        ||Credit      ||Debit       ||Balance     \n' +
       '2023-02-09  ||            ||500.00      ||0.00        \n' +
       '2023-02-08  ||500.00      ||            ||500.00      ';
-    bankStatement.print(transactions, 0);
+    bankStatement.print(transactions);
     expect(console.log).toHaveBeenCalledWith(expectedStatement);
   });
 
@@ -73,7 +73,7 @@ describe('BankStatement', () => {
       '2023-02-20  ||500.00      ||            ||500.00      \n' +
       '2023-02-10  ||            ||1000.00     ||0.00        \n' +
       '2023-02-09  ||1000.00     ||            ||1000.00     ';
-    bankStatement.print(transactions, 500);
+    bankStatement.print(transactions);
     expect(console.log).toHaveBeenCalledWith(expectedStatement);
   });
 });
