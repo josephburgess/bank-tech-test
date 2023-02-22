@@ -36,6 +36,8 @@ describe('Bank Account', () => {
     });
 
     it('should not allow a withdrawal if funds are insufficient', () => {
+      bankAccount.deposit(200);
+      bankAccount.withdraw(110);
       expect(() => bankAccount.withdraw(100)).toThrowError(
         'Insufficient balance'
       );
@@ -55,8 +57,7 @@ describe('Bank Account', () => {
             amount: number;
             date: Date;
             type: 'deposit' | 'withdrawal';
-          }[],
-          balance: number
+          }[]
         ) => void;
       } = {
         print: jest.fn(),
@@ -74,8 +75,7 @@ describe('Bank Account', () => {
 
       expect(mockStatementPrinter.print).toHaveBeenCalledTimes(1);
       expect(mockStatementPrinter.print).toHaveBeenCalledWith(
-        expectedTransactions,
-        expectedBalance
+        expectedTransactions
       );
     });
   });

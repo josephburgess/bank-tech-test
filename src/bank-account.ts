@@ -16,8 +16,7 @@ export class BankAccount {
   }
 
   printStatement(statementPrinter: IStatementPrinter): void {
-    const balance = this.calculateBalance();
-    statementPrinter.print(this.transactions, balance);
+    statementPrinter.print(this.transactions);
   }
 
   private calculateBalance(): number {
