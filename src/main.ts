@@ -1,16 +1,17 @@
+import { BankAccount } from './bank-account';
 import { BankStatement } from './bank-statement';
-import { BankSystem } from './bank-system';
 
 function startRepl() {
-  const bankSystem = new BankSystem();
-  const bankStatement = new BankStatement(bankSystem.getAccount());
-  const deposit = (amount: number) => bankSystem.deposit(amount);
-  const withdraw = (amount: number) => bankSystem.withdraw(amount);
-  const print = () => bankStatement.printStatement();
+  const account = new BankAccount();
+  const statementPrinter = new BankStatement();
+
+  const deposit = (amount: number) => account.deposit(amount);
+  const withdraw = (amount: number) => account.withdraw(amount);
+  const print = () => account.printStatement(statementPrinter);
 
   const repl = require('repl').start('> ');
-  repl.context.bankSystem = bankSystem;
-  repl.context.bankStatement = bankStatement;
+  repl.context.account = account;
+  repl.context.statementPrinter = statementPrinter;
   repl.context.deposit = deposit;
   repl.context.withdraw = withdraw;
   repl.context.print = print;

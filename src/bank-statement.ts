@@ -1,25 +1,22 @@
-import { BankAccount } from './types';
+import { Transaction } from './types';
 
-export class BankStatement {
-  account: BankAccount;
+export interface IStatementPrinter {
+  print(transactions: Transaction[], balance: number): void;
+}
 
-  constructor(account: BankAccount) {
-    this.account = account;
-  }
-
-  getStatement(): string {
+export class BankStatement implements IStatementPrinter {
+  print(transactions: Transaction[], balance: number): void {
     const header = this.formatLine('Date', 'Credit', 'Debit', 'Balance');
-    const statementLines = this.getStatementLines();
-    return [header, ...statementLines.reverse()].join('\n');
+    const statementLines = this.getStatementLines(transactions, balance);
+    console.log([header, ...statementLines.reverse()].join('\n'));
   }
 
-  printStatement(): void {
-    console.log(this.getStatement());
-  }
-
-  private getStatementLines(): string[] {
+  private getStatementLines(
+    transactions: Transaction[],
+    balance: number
+  ): string[] {
     let runningBalance = 0;
-    return this.account.transactions.map(({ date, amount, type }) => {
+    return transactions.map(({ date, amount, type }) => {
       const dateString = date.toISOString().substring(0, 10);
       const [credit, debit] =
         type === 'deposit' ? [amount.toFixed(2), ''] : ['', amount.toFixed(2)];

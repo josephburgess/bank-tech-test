@@ -1,78 +1,51 @@
+import { BankAccount } from '../src/bank-account';
 import { BankStatement } from '../src/bank-statement';
-import { BankSystem } from '../src/bank-system';
-import { Transaction, BankAccount } from '../src/types';
 
-describe('BankSystem and BankStatement', () => {
-  let bankSystem: BankSystem;
-  let bankStatement: BankStatement;
+describe('BankAccount and BankStatement integration', () => {
   let account: BankAccount;
-  let transactions: Transaction[];
+  let statement: BankStatement;
+  let consoleLogSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    bankSystem = new BankSystem();
-    bankStatement = new BankStatement(bankSystem.getAccount());
-    account = bankSystem.getAccount();
-    transactions = account.transactions;
+    account = new BankAccount();
+    statement = new BankStatement();
+    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
   });
 
-  describe('deposit', () => {
-    it('should increase the account balance and add a deposit transaction', () => {
-      bankSystem.deposit(100);
-      expect(account.balance).toBe(100);
-      expect(transactions.length).toBe(1);
-      expect(transactions[0].type).toBe('deposit');
-      expect(transactions[0].amount).toBe(100);
-    });
-
-    it('should add a deposit transaction with the given date', () => {
-      const date = new Date('2022-01-01');
-      bankSystem.deposit(100, date);
-      expect(transactions.length).toBe(1);
-      expect(transactions[0].date).toBe(date);
-    });
+  afterEach(() => {
+    consoleLogSpy.mockRestore();
   });
 
-  describe('withdraw', () => {
-    it('should decrease the account balance and add a withdrawal transaction', () => {
-      bankSystem.deposit(100);
-      bankSystem.withdraw(50);
-      expect(account.balance).toBe(50);
-      expect(transactions.length).toBe(2);
-      expect(transactions[1].type).toBe('withdrawal');
-      expect(transactions[1].amount).toBe(50);
-    });
-
-    it('should throw an error if the withdrawal amount exceeds the account balance', () => {
-      expect(() => bankSystem.withdraw(50)).toThrowError(
-        'Insufficient balance'
-      );
-      expect(account.balance).toBe(0);
-      expect(transactions.length).toBe(0);
-    });
-
-    it('should add a withdrawal transaction with the given date', () => {
-      const date = new Date('2022-01-01');
-      bankSystem.deposit(100);
-      bankSystem.withdraw(50, date);
-      expect(transactions.length).toBe(2);
-      expect(transactions[1].date).toBe(date);
-    });
+  it('should generate a statement with a single deposit transaction', () => {
+    account.deposit(500, new Date('2023-02-09'));
+    account.printStatement(statement);
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      'Date        ||Credit      ||Debit       ||Balance     \n' +
+        '2023-02-09  ||500.00      ||            ||500.00      '
+    );
   });
 
-  describe('BankStatement', () => {
-    it('should generate a statement with the correct balance for multiple transactions', () => {
-      bankSystem.deposit(100, new Date('2023-01-01'));
-      bankSystem.deposit(200, new Date('2023-02-01'));
-      bankSystem.withdraw(50, new Date('2023-03-01'));
-      bankSystem.deposit(50, new Date('2023-04-01'));
+  it('should generate a statement with a single deposit and single withdrawal transaction', () => {
+    account.deposit(500, new Date('2023-02-08'));
+    account.withdraw(500, new Date('2023-02-09'));
+    account.printStatement(statement);
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      'Date        ||Credit      ||Debit       ||Balance     \n' +
+        '2023-02-09  ||            ||500.00      ||0.00        \n' +
+        '2023-02-08  ||500.00      ||            ||500.00      '
+    );
+  });
 
-      const expectedStatement =
-        'Date        ||Credit      ||Debit       ||Balance     \n' +
-        '2023-04-01  ||50.00       ||            ||300.00      \n' +
-        '2023-03-01  ||            ||50.00       ||250.00      \n' +
-        '2023-02-01  ||200.00      ||            ||300.00      \n' +
-        '2023-01-01  ||100.00      ||            ||100.00      ';
-      expect(bankStatement.getStatement()).toBe(expectedStatement);
-    });
+  it('should print a statement for multiple transactions', () => {
+    account.deposit(1000, new Date('2023-02-01'));
+    account.deposit(2000, new Date('2023-02-03'));
+    account.withdraw(500, new Date('2023-02-04'));
+    account.printStatement(statement);
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      'Date        ||Credit      ||Debit       ||Balance     \n' +
+        '2023-02-04  ||            ||500.00      ||2500.00     \n' +
+        '2023-02-03  ||2000.00     ||            ||3000.00     \n' +
+        '2023-02-01  ||1000.00     ||            ||1000.00     '
+    );
   });
 });
