@@ -3,6 +3,7 @@ import { Transaction } from '../src/types';
 
 describe('BankStatement', () => {
   let bankStatement: BankStatement;
+  let transactions: jest.Mocked<Transaction[]>;
 
   beforeEach(() => {
     jest.spyOn(console, 'log').mockImplementation(() => {});
@@ -14,12 +15,12 @@ describe('BankStatement', () => {
   });
 
   it('should generate a statement with a single deposit transaction', () => {
-    const transactions: Transaction[] = [
+    transactions = [
       {
         amount: 500,
         date: new Date('2023-02-09'),
         type: 'deposit',
-      },
+      } as jest.Mocked<Transaction>,
     ];
     const expectedStatement =
       'Date        ||Credit      ||Debit       ||Balance     \n' +
@@ -29,17 +30,17 @@ describe('BankStatement', () => {
   });
 
   it('should generate a statement with a single deposit and single withdrawal transaction', () => {
-    const transactions: Transaction[] = [
+    transactions = [
       {
         amount: 500,
         date: new Date('2023-02-08'),
         type: 'deposit',
-      },
+      } as jest.Mocked<Transaction>,
       {
         amount: 500,
         date: new Date('2023-02-09'),
         type: 'withdrawal',
-      },
+      } as jest.Mocked<Transaction>,
     ];
     const expectedStatement =
       'Date        ||Credit      ||Debit       ||Balance     \n' +
@@ -55,17 +56,17 @@ describe('BankStatement', () => {
         amount: 1000,
         date: new Date('2023-02-09'),
         type: 'deposit',
-      },
+      } as jest.Mocked<Transaction>,
       {
         amount: 1000,
         date: new Date('2023-02-10'),
         type: 'withdrawal',
-      },
+      } as jest.Mocked<Transaction>,
       {
         amount: 500,
         date: new Date('2023-02-20'),
         type: 'deposit',
-      },
+      } as jest.Mocked<Transaction>,
     ];
     const expectedStatement =
       'Date        ||Credit      ||Debit       ||Balance     \n' +
