@@ -63,7 +63,7 @@ bankAccount.printStatement(bankStatement);
 
 
 ## Technical Details
-The main account logic is contained in the `bankAccount` class, along with the and `Transaction` type located in the types.ts file.
+The main account logic is contained in the `BankAccount` class, along with the `Transaction` type located in the types.ts file.
 
 Internally, this class stores the transactions inside an array.
 
