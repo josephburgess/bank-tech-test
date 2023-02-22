@@ -5,22 +5,14 @@ export class BankAccount {
   private transactions: Transaction[] = [];
 
   deposit(amount: number, date: Date = new Date()): void {
-    if (amount <= 0) {
-      throw new Error('Amount must be a positive number');
-    }
-    const transaction: Transaction = { amount, date, type: 'deposit' };
-    this.transactions.push(transaction);
+    this.validatePositive(amount);
+    this.addTransaction(amount, date, 'deposit');
   }
 
   withdraw(amount: number, date: Date = new Date()): void {
-    if (amount <= 0) {
-      throw new Error('Amount must be a positive number');
-    }
-    if (!this.hasSufficientBalance(amount)) {
-      throw new Error('Insufficient balance');
-    }
-    const transaction: Transaction = { amount, date, type: 'withdrawal' };
-    this.transactions.push(transaction);
+    this.validatePositive(amount);
+    this.validateSufficientBalance(amount);
+    this.addTransaction(amount, date, 'withdrawal');
   }
 
   printStatement(statementPrinter: IStatementPrinter): void {
@@ -36,7 +28,23 @@ export class BankAccount {
     }, 0);
   }
 
-  private hasSufficientBalance(amount: number): boolean {
-    return this.calculateBalance() >= amount;
+  private validatePositive(amount: number): void {
+    if (amount <= 0) {
+      throw new Error('Amount must be a positive number');
+    }
+  }
+
+  private validateSufficientBalance(amount: number): void {
+    if (this.calculateBalance() < amount) {
+      throw new Error('Insufficient balance');
+    }
+  }
+
+  private addTransaction(
+    amount: number,
+    date: Date,
+    type: 'deposit' | 'withdrawal'
+  ): void {
+    this.transactions.push({ amount, date, type } as Transaction);
   }
 }
