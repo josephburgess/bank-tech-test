@@ -31,6 +31,11 @@ describe('BankAccount and BankStatement integration', () => {
 
   it('should generate a statement with a single deposit and single withdrawal transaction', () => {
     account.deposit(500, new Date('2023-02-08'));
+    account.printStatement(statement);
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      'Date        ||Credit      ||Debit       ||Balance     \n' +
+        '2023-02-08  ||500.00      ||            ||500.00      '
+    );
     account.withdraw(500, new Date('2023-02-09'));
     account.printStatement(statement);
     expect(consoleLogSpy).toHaveBeenCalledWith(
