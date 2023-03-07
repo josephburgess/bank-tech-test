@@ -22,6 +22,7 @@ To run this project, first clone the repository and run `npm install` to install
 npm install
 ```
 
+
 Next, run `npm start` to open the REPL with a `BankAccount` and `BankStatement` class already instantiated.
 
 ```
